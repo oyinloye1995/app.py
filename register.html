@@ -124,32 +124,31 @@
         }
     </style>
    <script>
-    function handleSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
-        const formData = new FormData(event.target); // Capture form data
-        const data = Object.fromEntries(formData.entries()); // Convert to an object
+   function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
+    const formData = new FormData(event.target); // Capture form data
+    const data = Object.fromEntries(formData.entries()); // Convert to an object
 
-        // Send data to the back-end
-        fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message); // Show the success message
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = ''; // Clear previous output
-            for (const [key, value] of Object.entries(data.data)) {
-                const p = document.createElement('p');
-                p.textContent = `${key}: ${value}`; // Create a paragraph for each key-value pair
-                outputDiv.appendChild(p); // Append to the output div
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
+    // Send data to the back-end
+    fetch('/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message); // Show the success message
+
+        // Redirect to the success page after successful registration
+        if (data.status === 'success') {
+            window.location.href = 'success.html'; // Redirect to success page
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 </script>
 
 </head>
